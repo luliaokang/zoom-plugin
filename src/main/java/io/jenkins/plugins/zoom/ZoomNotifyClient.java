@@ -1,6 +1,7 @@
 package io.jenkins.plugins.zoom;
 
 import hudson.ProxyConfiguration;
+import hudson.util.Secret;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.http.HttpEntity;
@@ -29,6 +30,10 @@ import java.util.regex.Pattern;
 public class ZoomNotifyClient{
 
     private static CloseableHttpClient defaultHttpClient = HttpClients.createDefault();
+
+    public static boolean notify(String url, Secret authToken, boolean jenkinsProxyUsed, String message) {
+        return notify(url, authToken == null ? null : authToken.getPlainText(), jenkinsProxyUsed, message);
+    }
 
     public static boolean notify(String url, String authToken, boolean jenkinsProxyUsed, String message) {
         boolean success = false;
